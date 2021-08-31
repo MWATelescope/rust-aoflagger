@@ -1,0 +1,51 @@
+name: Release
+
+# Do this on every push with a version tag
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  publish-crate:
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+    environment: CI
+
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install stable toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+        components: rustfmt, clippy
+
+    - name: Install Cargo Make
+      uses: davidB/rust-cargo-make@v1
+
+    - name: Install Birli Dependencies
+      run: |
+        cargo make install_deps
+
+    - run: cargo package
+    - uses: taiki-e/create-gh-release-action@v1
+      with:
+        changelog: RELEASES.md
+        title: $version
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Cargo publish
+      run: |
+        cargo publish --token ${CARGO_REGISTRY_TOKEN}
+      env:
+        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
