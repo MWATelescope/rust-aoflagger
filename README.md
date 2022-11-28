@@ -11,7 +11,7 @@
   <img alt="Crates.io" src="https://img.shields.io/crates/d/aoflagger_sys?label=crates.io%20%E2%AC%87%EF%B8%8F"></a>
 <a href="https://docs.rs/crate/aoflagger_sys/">
   <img src="https://docs.rs/aoflagger_sys/badge.svg" alt="codecov"></a>
-<a href="https://codecov.io/gh/MWATelescope/rust-aoflagger"> 
+<a href="https://codecov.io/gh/MWATelescope/rust-aoflagger">
   <img src="https://codecov.io/gh/MWATelescope/rust-aoflagger/branch/main/graph/badge.svg?token=PK2KYEZOW9" alt="codecov"></a>
 <a href="https://rust-reportcard.xuri.me/report/github.com/mwatelescope/rust-aoflagger">
   <img src="https://rust-reportcard.xuri.me/badge/github.com/mwatelescope/rust-aoflagger" alt="rust-reportcard"></a>
@@ -29,13 +29,21 @@ Rust bindings for <https://gitlab.com/aroffringa/aoflagger>
 
 ### Prerequisites
 
-- A Rust compiler with a version >= 1.51.0 - <https://www.rust-lang.org/tools/install>
-- [AOFlagger](https://gitlab.com/aroffringa/aoflagger) >= 3.0
-  (Ubuntu > 21.04: apt install aoflagger-dev)
-- [CFitsIO](https://heasarc.gsfc.nasa.gov/fitsio/) >= 3.49
-  (Ubuntu > 20.10: apt install libcfitsio-dev)
+`aoflagger_sys` itself only requires
+[`AOFlagger`](https://gitlab.com/aroffringa/aoflagger), version >= 3.0, but that
+requires many dependencies. On Ubuntu > 21.04, `apt install aoflagger-dev` is
+enough, but for OS-specific instructions, check out the
+[linux](https://github.com/MWATelescope/rust-aoflagger/blob/main/.github/workflows/linux_test.yml)
+and
+[macOS](https://github.com/MWATelescope/rust-aoflagger/blob/main/.github/workflows/macos_test.yml)
+CI Scripts and the
+[Makefile.toml](https://github.com/MWATelescope/rust-aoflagger/blob/main/Makefile.toml)
+as these are tested regularly. The instructions below may be updated less
+frequently, but are better documented.
 
-for OS-specific instructions, check out the [linux](https://github.com/MWATelescope/rust-aoflagger/blob/main/.github/workflows/linux_test.yml) and [macOS](https://github.com/MWATelescope/rust-aoflagger/blob/main/.github/workflows/macos_test.yml) CI Scripts and the [Makefile.toml](https://github.com/MWATelescope/rust-aoflagger/blob/main/Makefile.toml) as these are tested regularly. The instructions below may be updated less frequently, but are better documented.
+If `AOFlagger` is in a non-standard location, `AOFLAGGER_INCLUDE_DIR` and
+`AOFLAGGER_LIB` may be set to the include and library directories, respectively,
+which allows `aoflagger_sys` to find the correct files.
 
 ### (Debian/Ubuntu) Linux Setup
 
