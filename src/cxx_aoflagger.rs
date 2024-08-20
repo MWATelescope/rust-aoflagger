@@ -2,6 +2,7 @@
 // These are necessary for binding to aoflagger
 #[allow(clippy::ptr_arg)]
 #[allow(clippy::too_many_arguments)]
+#[allow(clippy::missing_safety_doc)]
 pub mod ffi {
     unsafe extern "C++" {
         include!("aoflagger_sys/include/cxx_aoflagger.h");
@@ -33,6 +34,10 @@ pub mod ffi {
         pub type CxxStrategy;
 
         /// Create a new [`CxxAOFlagger`] instance
+        ///
+        /// # Safety
+        ///
+        /// Initializes a new C++ AOFLagger object. The caller must ensure it is properly destructed.
         unsafe fn cxx_aoflagger_new() -> UniquePtr<CxxAOFlagger>;
 
         // CxxImageSet methods
@@ -53,6 +58,9 @@ pub mod ffi {
         /// (Mutably) access the raw float buffer at `imgIndex` in the [`CxxImageSet`]
         fn ImageBufferMut(self: Pin<&mut CxxImageSet>, imgIndex: usize) -> &mut [f32];
         /// (Mutably) access the raw float buffer at `imgIndex` in the [`CxxImageSet`] without pins
+        ///
+        /// # Safety
+        ///
         /// TODO: document safety
         #[allow(clippy::mut_from_ref)]
         unsafe fn ImageBufferMutUnsafe(self: &CxxImageSet, imgIndex: usize) -> &mut [f32];
@@ -95,8 +103,9 @@ pub mod ffi {
         fn GetVersion(self: &CxxAOFlagger, major: &mut i16, minor: &mut i16, subMinor: &mut i16);
         /// Create a new [`CxxImageSet`] with specified dimensions and initial value.
         ///
-        /// # Undefined Behavior
+        /// # Safety
         ///
+        /// TODO: document safety
         /// TODO: what if widthCapacity < width?
         unsafe fn MakeImageSet(
             self: &CxxAOFlagger,
@@ -107,6 +116,10 @@ pub mod ffi {
             widthCapacity: usize,
         ) -> UniquePtr<CxxImageSet>;
         /// Create a new [`CxxFlagMask`] with specified dimensions and initial value.
+        ///
+        /// # Safety
+        ///
+        /// TODO: document safety
         unsafe fn MakeFlagMask(
             self: &CxxAOFlagger,
             width: usize,
@@ -262,7 +275,7 @@ mod tests_aoflagger {
         let height = 6_usize;
         let count = 4_usize;
         let initial_val = 5_f32;
-        let width_cap = width as usize;
+        let width_cap = width;
         let exp_stride = (((width - 1) / 4) + 1) * 4;
         let mut exp_flag_chunks = vec![vec![false; exp_stride]; height];
         let noise_x = 3;
@@ -295,7 +308,7 @@ mod tests_aoflagger {
         let height = 6_usize;
         let count = 4_usize;
         let initial_val = 5_f32;
-        let width_cap = width as usize;
+        let width_cap = width;
         let exp_stride = (((width - 1) / 4) + 1) * 4;
         let mut exp_flag_chunks = vec![vec![false; exp_stride]; height];
         let existing_x = 1;
@@ -319,7 +332,6 @@ mod tests_aoflagger {
         let flag_stride = existing_flag_mask.HorizontalStride();
         let flag_mask = strategy.RunExisting(&img_set, &existing_flag_mask);
         let flag_buffer = flag_mask.Buffer();
-        assert_eq!(size_of_val(&flag_buffer), 16);
 
         assert_eq!(
             &flag_buffer.chunks(flag_stride).collect::<Vec<_>>(),
