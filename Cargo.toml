@@ -15,8 +15,8 @@ links = "aoflagger"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cxx = "1.0"
+cxx = "1.0.128"
 
 [build-dependencies]
-cc = { version = "1.0", features = ["parallel"] }
-cxx-build = "1.0.54"
+cc = { version = "1.0.99", features = ["parallel"] }
+cxx-build = "1.0.128"

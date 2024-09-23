@@ -46,7 +46,7 @@ fn main() {
             // Tell cargo to search in the library dir AOFLAGGER_LIB, if it's
             // defined.
             if let Ok(lib) = std::env::var("AOFLAGGER_LIB") {
-                println!("cargo:rustc-link-search=native={lib}");
+                println!("cargo:rustc-link-search=native={}", lib);
             }
         }
     }
