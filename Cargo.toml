@@ -1,10 +1,11 @@
 [package]
 name = "aoflagger_sys"
-description = "Rust bindings for the aoflagger C++ library"
-version = "0.1.1"
+description = "rate will be renamed to aoflagger-sys, see https://github.com/MWATelescope/rust-aoflagger/issues/2"
+# description = "Rust bindings for the aoflagger C++ library"
+version = "0.1.2"
 homepage = "https://github.com/MWATelescope/rust-aoflagger"
 repository = "https://github.com/MWATelescope/rust-aoflagger"
-authors = ["Derwent McElhinney <derwent.mcelhinney@curtin.edu.au>"]
+authors = ["Dev Null <dev.null@curtin.edu.au>"]
 edition = "2018"
 license = "MPL-2.0"
 keywords = ["radioastronomy", "astronomy", "aoflagger"]
@@ -17,5 +18,5 @@ links = "aoflagger"
 cxx = "1.0"
 
 [build-dependencies]
-cc = {version = "1.0", features = ["parallel"]}
+cc = { version = "1.0", features = ["parallel"] }
 cxx-build = "1.0.54"

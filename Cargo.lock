@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "aoflagger_sys"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "cc",
  "cxx",

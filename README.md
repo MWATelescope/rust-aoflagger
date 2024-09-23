@@ -1,5 +1,7 @@
 # Rust AOFlagger
 
+Crate will be renamed to `aoflagger-sys`, see [issue #2](https://github.com/MWATelescope/rust-aoflagger/issues/2)
+
 <!-- markdownlint-disable MD033 -->
 <div class="bg-gray-dark" align="center" style="background-color:#24292e">
 <br/>
