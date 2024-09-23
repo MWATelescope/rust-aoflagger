@@ -21,12 +21,18 @@ jobs:
           rustup toolchain install nightly-2021-05-09 --component llvm-tools-preview
           rustup default nightly-2021-05-09
 
-      - name: Install Cargo Packages
-        run: |
-          cargo install --force cargo-make --locked --version '^0.32'
-          cargo install --force cargo-binutils --locked
-        env:
-          DEBIAN_FRONTEND: noninteractive
+      - name: Install Cargo Make
+        uses: davidB/rust-cargo-make@v1
+      # - name: Install cargo-make from crates.io
+      #   uses: baptiste0928/cargo-install@v3
+      #   with:
+      #     crate: cargo-make
+      #     version: '^0.37.16'
+      - name: Install cargo-binutils from crates.io
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: cargo-binutils
+          version: '^0.3.6'
 
       - name: Generate test lcov coverage into coverage/ dir
         env:
