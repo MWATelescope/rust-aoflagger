@@ -1,6 +1,12 @@
 # Based on https://github.com/actions-rs/meta/blob/master/recipes/quickstart.md
 
-on: [push, pull_request]
+on:
+  push:
+    tags-ignore:
+      - "**"
+    branches:
+      - "**"
+  pull_request:
 
 name: Generate Coverage report
 
@@ -8,52 +14,17 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     container: mwatelescope/birli:latest
-
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Install nightly toolchain
-        run: |
-          rustup set profile minimal
-          rustup toolchain install nightly-2021-05-09 --component llvm-tools-preview
-          rustup default nightly-2021-05-09
-
-      - name: Install Cargo Make
-        uses: davidB/rust-cargo-make@v1
-      # - name: Install cargo-make from crates.io
-      #   uses: baptiste0928/cargo-install@v3
-      #   with:
-      #     crate: cargo-make
-      #     version: '^0.37.16'
-      - name: Install cargo-binutils from crates.io
-        uses: baptiste0928/cargo-install@v3
-        with:
-          crate: cargo-binutils
-          version: '^0.2.0'
-
       - name: Generate test lcov coverage into coverage/ dir
-        env:
-          RUSTFLAGS: -Zinstrument-coverage
-          LLVM_PROFILE_FILE: json5format-%m.profraw
         run: |
           mkdir -p coverage
-          cargo test -- --include-ignored
-          cargo profdata -- \
-            merge -sparse json5format-*.profraw -o json5format.profdata
-          cargo cov -- export --format=lcov \
-            --ignore-filename-regex='(/.cargo/registry|/rustc|test.rs$)' \
-            --instr-profile=json5format.profdata \
-            $(cargo test --tests --no-run --message-format=json | jq -r '
-              select(.profile.test == true)
-              | .filenames[]
-              | select(endswith(".dSYM")|not)
-              | " -object \(.)"
-            ') \
-            > coverage/coverage.lcov
-
+          /opt/cargo/bin/cargo llvm-cov --all --locked --lcov --output-path coverage/coverage.lcov
+          # this uses the result of the previous run to generate a text summary
+          /opt/cargo/bin/cargo llvm-cov --no-run --locked
       - name: Upload reports to codecov.io
         uses: codecov/codecov-action@v1
         with:
