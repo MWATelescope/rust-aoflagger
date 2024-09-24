@@ -53,6 +53,8 @@ fn main() {
 
     println!("cargo:rerun-if-env-changed=AOFLAGGER_INCLUDE_DIR");
     println!("cargo:rerun-if-env-changed=AOFLAGGER_LIB");
+    println!("cargo:rerun-if-env-changed=LD_LIBRARY_PATH");
+    println!("cargo:rerun-if-env-changed=DYLD_FALLBACK_LIBRARY_PATH");
 
     println!("cargo:rerun-if-changed=src/cxx_aoflagger.rs");
     println!("cargo:rerun-if-changed=src/cxx_aoflagger.cc");

@@ -18,5 +18,5 @@ links = "aoflagger"
 cxx = "1.0.128"
 
 [build-dependencies]
-cc = { version = "1.1.8", features = ["parallel"] }
+cc = { version = "1.0.99", features = ["parallel"] }
 cxx-build = "1.0.128"
