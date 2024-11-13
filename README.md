@@ -74,11 +74,13 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
 # Cargo make uses Makefile.toml to automate development tasks
 cargo install --force cargo-make
 # Add the MWATelescope homebrew tap
-brew tap mwaTelescope/tap
+brew tap mwatelescope/tap
 # Install prerequisite libraries
-brew cask install casacore-data casacore aoflagger erfa
+brew cask install mwatelescope/aoflagger
+# Ensure that rust can find the C/C++ libraries.
+export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib/
 ```
 
 ### Windows Setup
 
-Unfortunately most of the prerequisites aren't available on Windows. However, WSL is great.
+Unfortunately most of the prerequisites aren't available on Windows. However, WSL is a thing.
