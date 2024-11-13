@@ -8,7 +8,7 @@ jobs:
   test:
     strategy:
       matrix:
-        os: ["ubuntu-18.04", "ubuntu-20.04"]
+        os: ["ubuntu-18.04", "ubuntu-20.04", "ubuntu-22.04", "ubuntu-24.04"]
     runs-on: "${{ matrix.os }}"
     steps:
       - name: Checkout sources
@@ -61,6 +61,19 @@ jobs:
         run: cargo make install_deps
 
       - name: Cargo Make CI
+        run: cargo make ci
+        env:
+          LD_LIBRARY_PATH: /usr/local/lib/
+
+      - name: Install msrv Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: 1.63.0
+          override: true
+          components: rustfmt, clippy
+
+      - name: Cargo Make CI (msrv)
         run: cargo make ci
         env:
           LD_LIBRARY_PATH: /usr/local/lib/
