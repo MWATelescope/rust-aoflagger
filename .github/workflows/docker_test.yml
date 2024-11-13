@@ -21,7 +21,14 @@ jobs:
           rustup toolchain install stable --component rustfmt,clippy
           rustup default stable
 
-      - name: Cargo Make CI
-        run: |
-          export PATH="${HOME}/.cargo/bin:${PATH}"
-          cargo make ci
+      - name: Install cargo-make
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-make
+
+      - name: Install deps
+        uses: actions-rs/cargo@v1
+        with:
+          command: make
+          args: ci

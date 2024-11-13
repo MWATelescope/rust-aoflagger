@@ -2,11 +2,12 @@
 name = "aoflagger_sys"
 description = "rate will be renamed to aoflagger-sys, see https://github.com/MWATelescope/rust-aoflagger/issues/2"
 # description = "Rust bindings for the aoflagger C++ library"
-version = "0.1.2"
+version = "0.1.3"
 homepage = "https://github.com/MWATelescope/rust-aoflagger"
 repository = "https://github.com/MWATelescope/rust-aoflagger"
 authors = ["Dev Null <dev.null@curtin.edu.au>"]
 edition = "2018"
+rust-version = "1.63"
 license = "MPL-2.0"
 keywords = ["radioastronomy", "astronomy", "aoflagger"]
 categories = ["science"]
@@ -15,8 +16,11 @@ links = "aoflagger"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cxx = "1.0.128"
+cxx = "~1.0.87"
 
 [build-dependencies]
 cc = { version = "1.0.99", features = ["parallel"] }
-cxx-build = "1.0.128"
+cxx-build = "~1.0.87"
+
+# unicode-width 0.1.14 uses library feature 'mixed_integer_ops', unstable in 1.63
+unicode-width = { git = "https://github.com/unicode-rs/unicode-width", tag = "v0.1.11" }
