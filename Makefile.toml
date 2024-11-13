@@ -34,7 +34,14 @@ dependencies = ["linux_apt_get_essentials"]
 
 [tasks.linux_install_aoflagger]
 script = """
+# set sudo command if user is not root
 [ $(id -u) != 0 ] && export SUDO="sudo" || export SUDO=""
+
+# if ubuntu > 21.04, install through apt
+$(source /etc/os-release && dpkg --compare-versions "$VERSION_ID" gt "21.04" &> /dev/null) \
+  && $SUDO apt-get install -y aoflagger-dev \
+  && exit 0
+
 $SUDO apt-get install -y \
     casacore-data \
     casacore-dev \

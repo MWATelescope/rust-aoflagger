@@ -23,4 +23,4 @@ cc = { version = "1.0.99", features = ["parallel"] }
 cxx-build = "~1.0.87"
 
 # unicode-width 0.1.14 uses library feature 'mixed_integer_ops', unstable in 1.63
-unicode-width = { git = "https://github.com/unicode-rs/unicode-width", tag = "v0.1.11" }
+# unicode-width = { git = "https://github.com/unicode-rs/unicode-width", tag = "v0.1.11" }
