@@ -19,12 +19,27 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Install stable Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy, llvm-tools
+
+      - name: Install cargo-llvm-cov
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-llvm-cov
+
       - name: Generate test lcov coverage into coverage/ dir
         run: |
           mkdir -p coverage
-          /opt/cargo/bin/cargo llvm-cov --all --locked --lcov --output-path coverage/coverage.lcov
+          cargo llvm-cov --all --locked --lcov --output-path coverage/coverage.lcov
           # this uses the result of the previous run to generate a text summary
-          /opt/cargo/bin/cargo llvm-cov --no-run --locked
+          cargo llvm-cov --no-run --locked
       - name: Upload reports to codecov.io
         uses: codecov/codecov-action@v1
         with:
